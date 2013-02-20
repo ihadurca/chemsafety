@@ -107,14 +107,17 @@ def parsefisher(lookfor, msdsurl):
     print appearance
 
     #Get PPE
-    temp = msdshtml.split("Personal Protective Equipment")[1].split("Section 9")[0]
+    temp = gettextbetween(msdshtml,'Personal Protective Equipment','Section 9')
+    #temp = msdshtml.split("Personal Protective Equipment")[1].split("Section 9")[0]
     temp = nltk.clean_html(temp)
 
+
+    gettextbetween(temp, 'Clothing:','Respirators:')
    # print temp, len(temp)
     if len(temp) !=0:
-        peyes = 'PPE EYES: ' + cleanstr(temp.split('Eyes:')[1].split('Skin:')[0])
-        pskin = 'PPE Skin: ' + cleanstr(temp.split('Skin:')[1].split('Clothing:')[0])
-        pcloth = 'PPE Clothing: ' + cleanstr(temp.split('Clothing:')[1].split('Respirators:')[0])
+        peyes = 'PPE EYES: ' + cleanstr(gettextbetween(temp, 'Eyes:','Skin:'))
+        pskin = 'PPE Skin: ' + cleanstr(gettextbetween(temp, 'Skin:','Clothing:'))
+        pcloth = 'PPE Clothing: ' + cleanstr(gettextbetween(temp, 'Clothing:','Respirators:'))
         presp = 'PPE Resp: ' + cleanstr(temp.split('Respirators:')[1])
     else:
         peyes = 'PPE EYES: ' + 'not available'
